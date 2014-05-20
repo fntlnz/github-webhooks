@@ -7,13 +7,12 @@ import (
 
 // Configuration configuration struct
 type Configuration struct {
-    Repositories []Repository `json:"repositories"`
+    Repositories map[string]*Repository `json:"repositories"`
 }
 
 // Repository ...
 type Repository struct {
-    Name string `json:"name"`
-    Key  string `json:"key"`
+    Token string `json:"token"`
 }
 
 // Parse ...
@@ -31,9 +30,4 @@ func (c *Configuration) Parse(filePath string) error {
     }
 
     return nil
-}
-
-// GetRepository ...
-func (c *Configuration) GetRepository(repository string) {
-
 }

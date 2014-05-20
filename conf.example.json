@@ -1,8 +1,7 @@
 {
-    "repositories": [
-        {
-            "name": "majinbuu/statik",
-            "key": "mysupersecretstatikkey"
+    "repositories": {
+        "majinbuu/statik": {
+            "token": "mysupersecretstatiktoken"
         }
-    ]
+    }
 }

@@ -24,7 +24,6 @@ func main() {
     configuration.Parse(configurationFilePath)
     m := martini.Classic()
     m.Use(render.Renderer())
-    log.Fatal(configuration)
     m.Map(configuration)
     Routes(m)
     m.Run()
