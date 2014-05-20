@@ -1,19 +1,31 @@
 package main
 
 import (
-	"flag"
-	"fmt"
+    "flag"
+    "github.com/go-martini/martini"
+    "github.com/martini-contrib/render"
+    "log"
 )
 
 var configurationFilePath string
 var configuration Configuration
 
 func init() {
-	flag.StringVar(&configurationFilePath, "configuration", "", "Configuration file path")
+    flag.StringVar(&configurationFilePath, "configuration", "", "Configuration file path")
 }
 
 func main() {
-	flag.Parse()
-	configuration.Parse(configurationFilePath)
-	fmt.Println(configuration.Repositories)
+    flag.Parse()
+
+    if "" == configurationFilePath {
+        log.Fatal("Configuration not provided")
+    }
+
+    configuration.Parse(configurationFilePath)
+    m := martini.Classic()
+    m.Use(render.Renderer())
+    log.Fatal(configuration)
+    m.Map(configuration)
+    Routes(m)
+    m.Run()
 }

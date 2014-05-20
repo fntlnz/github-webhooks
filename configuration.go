@@ -1,31 +1,39 @@
 package main
 
 import (
-	"encoding/json"
-	"io/ioutil"
+    "encoding/json"
+    "io/ioutil"
 )
 
 // Configuration configuration struct
 type Configuration struct {
-	Repositories []string
+    Repositories []Repository `json:"repositories"`
 }
 
-// AddRepository ...
-func (c *Configuration) AddRepository(repository string) {
-	c.Repositories = append(c.Repositories, repository)
+// Repository ...
+type Repository struct {
+    Name string `json:"name"`
+    Key  string `json:"key"`
 }
 
 // Parse ...
-func (c *Configuration) Parse(filePath string) {
-	file, err := ioutil.ReadFile(filePath)
+func (c *Configuration) Parse(filePath string) error {
+    file, err := ioutil.ReadFile(filePath)
 
-	if err != nil {
-		//TODO handle error
-	}
+    if err != nil {
+        return err
+    }
 
-	err = json.Unmarshal(file, c)
+    err = json.Unmarshal(file, &c)
 
-	if err != nil {
-		//TODO handle error
-	}
+    if err != nil {
+        return err
+    }
+
+    return nil
+}
+
+// GetRepository ...
+func (c *Configuration) GetRepository(repository string) {
+
 }
