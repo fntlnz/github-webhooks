@@ -37,11 +37,12 @@ func Routes(m *martini.ClassicMartini) {
 
         repo := configuration.Repositories[repoName]
 
-        if repo.Token != jsonData["token"] {
-            r.JSON(401, map[string]interface{}{"status": "error", "errors": []string{"Invalid token"}})
+        if !repo.CheckSecret([]byte(req.Header.Get("X-Hub-Signature"))) {
+            r.JSON(401, map[string]interface{}{"status": "error", "errors": []string{"Invalid secret"}})
             return
         }
 
-        r.JSON(200, map[string]string{"cippa": repoName})
+        r.JSON(200, map[string]string{"All's OK": repoName})
+        return
     })
 }
