@@ -5,13 +5,14 @@ import (
     "github.com/go-martini/martini"
     "github.com/martini-contrib/render"
     "log"
+    "os"
 )
 
 var configurationFilePath string
 var configuration Configuration
 
 func init() {
-    flag.StringVar(&configurationFilePath, "configuration", "", "Configuration file path")
+    flag.StringVar(&configurationFilePath, "configuration", "github-webhooks.json", "Configuration file path")
 }
 
 func main() {
@@ -19,6 +20,12 @@ func main() {
 
     if "" == configurationFilePath {
         log.Fatal("Configuration not provided")
+    }
+
+    _, err := os.Stat(configurationFilePath)
+
+    if err != nil {
+        log.Fatalf("Error: %s", err.Error())
     }
 
     configuration.Parse(configurationFilePath)

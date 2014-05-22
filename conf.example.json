@@ -1,7 +1,9 @@
 {
     "repositories": {
         "majinbuu/statik": {
-            "secret": "mysupersecretstatiktoken"
+            "events": {
+                "push": ["ls -la", "touch test.html"]
+            }
         }
     }
 }

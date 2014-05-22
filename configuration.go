@@ -1,8 +1,6 @@
 package main
 
 import (
-    "crypto/hmac"
-    "crypto/sha1"
     "encoding/json"
     "io/ioutil"
 )
@@ -14,7 +12,7 @@ type Configuration struct {
 
 // Repository ...
 type Repository struct {
-    Secret string `json:"secret"`
+    Events map[string][]string
 }
 
 // Parse ...
@@ -32,10 +30,4 @@ func (c *Configuration) Parse(filePath string) error {
     }
 
     return nil
-}
-
-// CheckSecret ...
-func (r *Repository) CheckSecret(expectedSecret []byte) bool {
-    mac := hmac.New(sha1.New, []byte(r.Secret))
-    return hmac.Equal(mac.Sum(nil), expectedSecret)
 }
