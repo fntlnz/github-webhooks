@@ -29,7 +29,13 @@ func Routes(m *martini.ClassicMartini) {
 
         repo := configuration.Repositories[repoName]
         event := req.Header.Get("X-GitHub-Event")
-        actions := repo.Events[event]
+
+        actions, ok := repo.Events[event]
+
+        if false == ok {
+            r.JSON(404, map[string]interface{}{"status": "error", "errors": []string{fmt.Sprintf("%s is not configured for this hook", event)}})
+            return
+        }
 
         var errs []error
         for _, cmdString := range actions {
