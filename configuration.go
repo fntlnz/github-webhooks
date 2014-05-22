@@ -12,7 +12,7 @@ type Configuration struct {
 
 // Repository ...
 type Repository struct {
-    Events map[string][]string
+    Events map[string][]string `json:"events"`
 }
 
 // Parse ...
