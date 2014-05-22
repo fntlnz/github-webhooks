@@ -31,12 +31,22 @@ func Routes(m *martini.ClassicMartini) {
         event := req.Header.Get("X-GitHub-Event")
         actions := repo.Events[event]
 
+        var errs []error
         for _, cmdString := range actions {
             arguments := strings.Fields(cmdString)
             command := arguments[0]
             arguments = arguments[1:len(arguments)]
             cmd := exec.Command(command, arguments...)
-            cmd.Run()
+            err := cmd.Run()
+            if err != nil {
+                errs = append(errs, err)
+
+            }
+        }
+
+        if len(errs) > 0 {
+            r.JSON(500, map[string]interface{}{"status": "error", "errors": errs})
+            return
         }
 
         r.JSON(200, map[string]string{"status": "ok"})
