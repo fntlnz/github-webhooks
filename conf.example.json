@@ -1,9 +1,0 @@
-{
-    "repositories": {
-        "majinbuu/statik": {
-            "events": {
-                "push": ["ls -la", "touch test.html"]
-            }
-        }
-    }
-}
