@@ -1,6 +1,53 @@
-#github webhooks
+# github webhooks
 
 Allows you to execute commands on the server as a result of a github webhook request.
+
+## Usage
+
+```
+github-webhooks -configuration=github-webhooks.json
+```
+
+### Configuration file example
+
+Note that **port** is optional (default is 3091) and that if you want to **target hooks
+to a specific branch** you have to add another node to the configuration specifying the
+branch name after the repository name, for example if you want to accept hooks
+from `majinbuu/statik` master branch you have to use `majinbuu/statik/master` as repo name.
+
+As you have probably noted each repository have a node called events,
+here you have to specify the event to listen (for example `push`) and on each event a list of commands to execute.
+
+```json
+{
+    "port": "3091",
+    "repositories": {
+        "majinbuu/statik": {
+            "events": {
+                "ping": ["touch ping-on-any-branch.txt"]
+            }
+        },
+        "majinbuu/statik/master": {
+            "events": {
+                "push": ["touch push-on-master-branch.txt"]
+            }
+        }
+    }
+}
+```
+
+
+## Installation
+
+### From source
+
+```
+go get github.com/majinbuu/github-webhooks
+```
+
+### Pre-built binaries
+
+Them are coming soon!
 
 ## Security
 
