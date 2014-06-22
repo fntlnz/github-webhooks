@@ -7,21 +7,20 @@ import (
 	"net/http"
 	"os/exec"
 	"strings"
-	"log"
 )
 
 //Routes ...
 func Routes(m *martini.ClassicMartini,) {
-	m.Post("/:username/:repository/:branch", func(r render.Render, req *http.Request, params martini.Params, c Configuration, l *log.Logger) {
+	m.Post("/:username/:repository/:branch", func(r render.Render, req *http.Request, params martini.Params, c Configuration, l *Logger) {
 			repositoryAction(r, req, params, c, l)
 		})
 
-	m.Post("/:username/:repository", func(r render.Render, req *http.Request, params martini.Params, c Configuration, l *log.Logger) {
+	m.Post("/:username/:repository", func(r render.Render, req *http.Request, params martini.Params, c Configuration, l *Logger) {
 			repositoryAction(r, req, params, c, l)
 		})
 }
 
-func repositoryAction(r render.Render, req *http.Request, params martini.Params, c Configuration, l *log.Logger) {
+func repositoryAction(r render.Render, req *http.Request, params martini.Params, c Configuration, l *Logger) {
 	p := make([]byte, req.ContentLength)
 	_, err := req.Body.Read(p)
 
@@ -38,7 +37,7 @@ func repositoryAction(r render.Render, req *http.Request, params martini.Params,
 	}
 
 	if _, ok := c.Repositories[repoName]; !ok {
-		l.Printf("[ALERT] Repository not configured: %s", repoName)
+		l.WriteAlert(fmt.Sprintf("Repository not configured: %s", repoName))
 		r.JSON(404, map[string]interface{}{"status": "error", "errors": []string{"Repository not configured"}})
 		return
 	}
@@ -46,9 +45,9 @@ func repositoryAction(r render.Render, req *http.Request, params martini.Params,
 	repo := c.Repositories[repoName]
 	event := req.Header.Get("X-GitHub-Event")
 
-	l.Printf("[INFO] Event `%s` called on repository: %s", event, repoName)
+	l.WriteInfo(fmt.Sprintf("Event `%s` called on repository: %s", event, repoName))
 	if event == "" {
-		l.Printf("[ALERT] Event not passed")
+		l.WriteAlert("Event not passed")
 		r.JSON(400, map[string]interface{}{"status": "error", "errors": []string{"Event not provided"}})
 		return
 	}
@@ -56,7 +55,7 @@ func repositoryAction(r render.Render, req *http.Request, params martini.Params,
 	actions, ok := repo.Events[event]
 
 	if false == ok {
-		l.Printf("[ALERT] Event not found for hook: %s", event)
+		l.WriteAlert(fmt.Sprintf("Event not found for hook: %s", event))
 		r.JSON(404, map[string]interface{}{"status": "error", "errors": []string{fmt.Sprintf("`%s` event is not configured for this hook", event)}})
 		return
 	}
@@ -65,10 +64,11 @@ func repositoryAction(r render.Render, req *http.Request, params martini.Params,
 		arguments := strings.Fields(cmdString)
 		command := arguments[0]
 		arguments = arguments[1:len(arguments)]
+		l.WriteInfo(fmt.Sprintf("Executing command: %s", cmdString))
 		cmd := exec.Command(command, arguments...)
 		err := cmd.Run()
 		if err != nil {
-			l.Printf("[ERROR] Command: %s \t Error: %s", cmdString, err)
+			l.WriteError(fmt.Sprintf("Error: %s", cmdString, err))
 			r.JSON(500, map[string]interface{}{"status": "error", "command": cmdString, "errors": []string{fmt.Sprintf("%s", err)}})
 			return
 		}

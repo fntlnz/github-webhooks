@@ -4,21 +4,24 @@ import (
 	"flag"
 	"github.com/go-martini/martini"
 	"github.com/martini-contrib/render"
-	"log"
 	"os"
 	"net/http"
 	"fmt"
+	"log"
 )
 
-var configurationFilePath string
-var configuration Configuration
-
-func init() {
-	flag.StringVar(&configurationFilePath, "configuration", "github-webhooks.json", "Configuration file path")
-}
-
 func main() {
+	var configurationFilePath string
+	var configuration Configuration
+	var coloured bool
+
+
+	flag.StringVar(&configurationFilePath, "configuration", "github-webhooks.json", "Configuration file path")
+	flag.BoolVar(&coloured, "colors", true, "Coloured output")
 	flag.Parse()
+
+	logger := NewLogger()
+	logger.Coloured = coloured
 
 	if "" == configurationFilePath {
 		log.Fatal("Configuration not provided")
@@ -27,26 +30,22 @@ func main() {
 	_, err := os.Stat(configurationFilePath)
 
 	if err != nil {
-		log.Fatalf("Error: %s", err.Error())
+		log.Fatal("Fatal Error: %s", err.Error())
 	}
 
 	configuration.Parse(configurationFilePath)
 
-	port := ":3091"
+	port := "3091"
 
 	if configuration.Port != "" {
-		port = fmt.Sprintf(":%s", configuration.Port)
+		port = configuration.Port
 	}
 
 	m := martini.Classic()
-	logger := log.New(os.Stdout, "[github-webhooks] ", 0)
 	m.Use(render.Renderer())
 	m.Map(configuration)
 	m.Map(logger)
 	Routes(m)
-	logger.Printf("Running on port %s", port)
-	log.Fatal(http.ListenAndServe(port, m))
+	logger.WriteInfo(fmt.Sprintf("GitHub Web Hooks Running on port %s", port))
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), m))
 }
-
-
-
