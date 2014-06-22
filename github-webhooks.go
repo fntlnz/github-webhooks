@@ -40,9 +40,9 @@ func main() {
 
 	m := martini.Classic()
 	logger := log.New(os.Stdout, "[github-webhooks] ", 0)
-	m.Map(logger)
 	m.Use(render.Renderer())
 	m.Map(configuration)
+	m.Map(logger)
 	Routes(m)
 	logger.Printf("Running on port %s", port)
 	log.Fatal(http.ListenAndServe(port, m))
