@@ -72,8 +72,10 @@ func repositoryAction(r render.Render, req *http.Request, params martini.Params,
 			r.JSON(500, map[string]interface{}{"status": "error", "command": cmdString, "errors": []string{fmt.Sprintf("%s", err)}})
 			return
 		}
+		l.WriteSuccess(fmt.Sprintf("Command executed"))
 	}
 
+	l.WriteSuccess("Hook executed successfully")
 	r.JSON(200, map[string]string{"status": "ok"})
 	return
 }

@@ -15,7 +15,6 @@ func main() {
 	var configuration Configuration
 	var coloured bool
 
-
 	flag.StringVar(&configurationFilePath, "configuration", "github-webhooks.json", "Configuration file path")
 	flag.BoolVar(&coloured, "colors", true, "Coloured output")
 	flag.Parse()
@@ -45,6 +44,7 @@ func main() {
 	m.Use(render.Renderer())
 	m.Map(configuration)
 	m.Map(logger)
+	m.Map(NewNullLogger()) // Disable default martini logging
 	Routes(m)
 	logger.WriteInfo(fmt.Sprintf("GitHub Web Hooks Running on port %s", port))
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), m))

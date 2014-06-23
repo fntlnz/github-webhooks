@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 	"fmt"
+	"io/ioutil"
 )
 
 const bold string = "\033[46m"
@@ -48,4 +49,8 @@ func (l *Logger) write(prefix string, color string, format string) {
 	}
 	l.logger.Printf(fmt.Sprintf("%s%s%s", color, format, endColor))
 	return
+}
+
+func NewNullLogger() *log.Logger {
+	return log.New(ioutil.Discard, "", 0)
 }
