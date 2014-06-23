@@ -5,11 +5,6 @@
             "events": {
                 "ping": ["touch ping-on-any-branch.txt"]
             }
-        },
-        "majinbuu/statik/master": {
-            "events": {
-                "push": ["touch push-on-master-branch.txt"]
-            }
         }
     }
 }

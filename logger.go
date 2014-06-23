@@ -7,7 +7,6 @@ import (
 	"io/ioutil"
 )
 
-const bold string = "\033[46m"
 const lightBlue string = "\033[94m"
 const red string = "\033[91m"
 const green string = "\033[92m"
@@ -50,6 +49,7 @@ func (l *Logger) write(prefix string, color string, format string) {
 	l.logger.Printf(fmt.Sprintf("%s%s%s", color, format, endColor))
 	return
 }
+
 
 func NewNullLogger() *log.Logger {
 	return log.New(ioutil.Discard, "", 0)
