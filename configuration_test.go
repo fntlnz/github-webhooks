@@ -16,12 +16,12 @@ func TestParseConfiguration(t *testing.T) {
 		t.Errorf("Expected 1 configured repository, found %v", len(c.Repositories))
 	}
 
-	if _, ok := c.Repositories["majinbuu/statik"]; !ok {
-		t.Errorf("Expected repository `majinbuu/statik` not found")
+	if _, ok := c.Repositories["fntlnz/statik"]; !ok {
+		t.Errorf("Expected repository `fntlnz/statik` not found")
 	}
 
 
-	repo := c.Repositories["majinbuu/statik"]
+	repo := c.Repositories["fntlnz/statik"]
 
 	if _, ok := repo.Events["ping"]; !ok {
 		t.Errorf("Expected event `ping` not found")

@@ -1,7 +1,7 @@
 {
     "port": "3091",
     "repositories": {
-        "majinbuu/statik": {
+        "fntlnz/statik": {
             "events": {
                 "ping": ["touch ping-on-any-branch.txt"]
             }
