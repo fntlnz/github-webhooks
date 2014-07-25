@@ -13,7 +13,7 @@ github-webhooks -configuration=github-webhooks.json
 Note that **port** is optional (default is 3091) and that if you want to **target hooks
 to a specific branch** you have to add another node to the configuration specifying the
 branch name after the repository name, for example if you want to accept hooks
-from `majinbuu/statik` master branch you have to use `majinbuu/statik/master` as repo name.
+from `fntlnz/statik` master branch you have to use `fntlnz/statik/master` as repo name.
 
 As you have probably noted each repository have a node called events,
 here you have to specify the event to listen (for example `push`) and on each event a list of commands to execute.
@@ -22,12 +22,12 @@ here you have to specify the event to listen (for example `push`) and on each ev
 {
     "port": "3091",
     "repositories": {
-        "majinbuu/statik": {
+        "fntlnz/statik": {
             "events": {
                 "ping": ["touch ping-on-any-branch.txt"]
             }
         },
-        "majinbuu/statik/master": {
+        "fntlnz/statik/master": {
             "events": {
                 "push": ["touch push-on-master-branch.txt"]
             }
@@ -42,7 +42,7 @@ here you have to specify the event to listen (for example `push`) and on each ev
 ### From source
 
 ```
-go get github.com/majinbuu/github-webhooks
+go get github.com/fntlnz/github-webhooks
 ```
 
 ### Pre-built binaries
