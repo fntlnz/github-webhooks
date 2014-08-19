@@ -6,7 +6,7 @@ import (
 
 func TestParseConfiguration(t *testing.T) {
 	c := new(Configuration)
-	c.Parse("github-webhooks.json")
+	c.Parse("resources/test-configuration.json")
 
 	if c.Port != "3091" {
 		t.Errorf("Unexpected configuration port, expected: 3091 found: %v", c.Port)

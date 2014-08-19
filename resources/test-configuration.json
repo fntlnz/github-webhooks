@@ -1,0 +1,10 @@
+{
+    "port": "3091",
+    "repositories": {
+        "fntlnz/statik": {
+            "events": {
+                "ping": ["touch ping-on-any-branch.txt"]
+            }
+        }
+    }
+}
