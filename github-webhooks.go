@@ -29,7 +29,7 @@ func main() {
 	_, err := os.Stat(configurationFilePath)
 
 	if err != nil {
-		log.Fatal("Fatal Error: %s", err.Error())
+		log.Fatal("Fatal Error: ", err.Error())
 	}
 
 	configuration.Parse(configurationFilePath)
@@ -38,6 +38,14 @@ func main() {
 
 	if configuration.Port != "" {
 		port = configuration.Port
+	}
+
+	if (configuration.Path != "") {
+		err := os.Setenv("PATH", configuration.Path);
+
+		if err != nil {
+			logger.WriteError(fmt.Sprintf("An error occurred setting PATH: %s", err))
+		}
 	}
 
 	m := martini.Classic()

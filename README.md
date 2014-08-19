@@ -18,9 +18,13 @@ from `fntlnz/statik` master branch you have to use `fntlnz/statik/master` as rep
 As you have probably noted each repository have a node called events,
 here you have to specify the event to listen (for example `push`) and on each event a list of commands to execute.
 
+The **path** node allows you to overwrite the `$PATH` environment variable,
+if not set default `$PATH` is used.
+
 ```json
 {
     "port": "3091",
+    "path": "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
     "repositories": {
         "fntlnz/statik": {
             "events": {

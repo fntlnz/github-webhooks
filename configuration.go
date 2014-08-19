@@ -8,6 +8,7 @@ import (
 // Configuration configuration struct
 type Configuration struct {
 	Port string `json:"port"`
+	Path string `json:"path"`
 	Repositories map[string]*Repository `json:"repositories"`
 }
 
