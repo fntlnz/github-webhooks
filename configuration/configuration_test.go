@@ -1,4 +1,4 @@
-package main
+package configuration
 
 import (
 	"testing"
@@ -20,12 +20,11 @@ func TestParseConfiguration(t *testing.T) {
 		t.Errorf("Expected 1 configured repository, found %v", len(c.Repositories))
 	}
 
-	if _, ok := c.Repositories["fntlnz/statik"]; !ok {
-		t.Errorf("Expected repository `fntlnz/statik` not found")
+	if _, ok := c.Repositories["fntlnz/dockerfiles"]; !ok {
+		t.Errorf("Expected repository `fntlnz/dockerfiles` not found")
 	}
 
-
-	repo := c.Repositories["fntlnz/statik"]
+	repo := c.Repositories["fntlnz/dockerfiles"]
 
 	if _, ok := repo.Events["ping"]; !ok {
 		t.Errorf("Expected event `ping` not found")
@@ -36,5 +35,4 @@ func TestParseConfiguration(t *testing.T) {
 	if ping[0] != "touch ping-on-any-branch.txt" {
 		t.Errorf("Unexpected command on event `ping` expected: `touch ping-on-any-branch.txt` found: `%v`", ping[0])
 	}
-
 }

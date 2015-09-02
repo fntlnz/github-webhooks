@@ -24,7 +24,7 @@ if not set default `$PATH` is used.
 ```json
 {
     "port": "3091",
-    "path": "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+    "path": "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin",
     "repositories": {
         "fntlnz/statik": {
             "events": {
