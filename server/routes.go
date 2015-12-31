@@ -1,6 +1,6 @@
 package server
 
-import(
+import (
 	"github.com/gorilla/mux"
 )
 
@@ -12,23 +12,28 @@ type Route struct {
 }
 
 var routes = []Route{
-	Route {
-		Name: "Repository",
-		Method:"POST",
-		Pattern: "/{vendor}/{repository}",
+	Route{
+		Name:        "Repository",
+		Method:      "POST",
+		Pattern:     "/{vendor}/{repository}",
+		HandlerFunc: Repository,
+	},
+	Route{
+		Name:        "Repository",
+		Method:      "POST",
+		Pattern:     "/{vendor}/{repository}/{branch}",
 		HandlerFunc: Repository,
 	},
 }
 
-func NewRouter() *mux.Router {
+func NewRouter(context *Context) *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
-	context := new(Context)
 	for _, route := range routes {
-		handler := loggingMiddleware(route, AppHandler(context, route.HandlerFunc))
+		appHandler := AppHandler(context, route.HandlerFunc)
 		r := router.Methods(route.Method)
 		r.Path(route.Pattern)
 		r.Name(route.Name)
-		r.Handler(handler)
+		r.Handler(appHandler)
 	}
 	return router
 }

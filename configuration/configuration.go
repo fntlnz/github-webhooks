@@ -2,10 +2,12 @@ package configuration
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 )
 
 type Configuration struct {
+	Host         string                 `json:"host"`
 	Port         string                 `json:"port"`
 	Path         string                 `json:"path"`
 	Repositories map[string]*Repository `json:"repositories"`
@@ -15,7 +17,7 @@ type Repository struct {
 	Events map[string][]string `json:"events"`
 }
 
-func (c *Configuration) Parse(configuration []byte)  error {
+func (c *Configuration) Parse(configuration []byte) error {
 	return json.Unmarshal(configuration, &c)
 }
 
@@ -33,4 +35,11 @@ func (c *Configuration) ParseFile(filePath string) error {
 	}
 
 	return nil
+}
+
+func (c Configuration) GetAddress() string {
+	if len(c.Host) > 0 {
+		return fmt.Sprintf("%s:%s", c.Host, c.Port)
+	}
+	return fmt.Sprintf(":%s", c.Port)
 }
