@@ -1,4 +1,4 @@
-# github webhooks
+# github webhooks [![Build Status](https://travis-ci.org/fntlnz/github-webhooks.svg?branch=master)](https://travis-ci.org/fntlnz/github-webhooks)
 
 Execute shell commands on the server as a result of a github webhook event.
 
