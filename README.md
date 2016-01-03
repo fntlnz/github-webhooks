@@ -1,14 +1,25 @@
-# github webhooks [![Build Status](https://travis-ci.org/fntlnz/github-webhooks.svg?branch=master)](https://travis-ci.org/fntlnz/github-webhooks)
+# GitHub Webhooks [![Build Status](https://travis-ci.org/fntlnz/github-webhooks.svg?branch=master)](https://travis-ci.org/fntlnz/github-webhooks)
 
-Execute shell commands on the server as a result of a github webhook event.
+Execute shell commands on the server when a GitHub web hook event is fired on your repo.
 
-## Server command
+## Usage
+
+### Run the server
+
+The `server` command starts an HTTP webserver that can take requests from the GitHub WebHooks service.
+This command uses the default configuration path `/etc/github-webhooks.json` but you can provide a custom one with the `-c, --configuration` parameter.
 
 ```
-github-webhooks server -configuration=github-webhooks.json
+github-webhooks server
+```
+
+```
+github-webhooks server -c /my/custom/configuration.json
 ```
 
 ### Configuration file example
+
+GitHub WebHooks is configured trough a json file with the following structure:
 
 Note that **host** and **port** are optional (defaults are 0.0.0.0 and 3091) and that if you want to **target hooks
 to a specific branch** you have to add another node to the configuration specifying the
@@ -41,19 +52,6 @@ if not set default `$PATH` is used.
 }
 ```
 
-
-## Installation
-
-### From source
-
-```
-go get github.com/fntlnz/github-webhooks
-```
-
-### Pre-built binaries
-
-Them are coming soon!
-
 ## Security
 
 It's recommended to configure your firewall to accept only requests coming
@@ -62,6 +60,7 @@ from trusted servers. In this case trusted servers are the GitHub ones.
 To know which are ip addresses of GitHub hooks servers take a look at [https://api.github.com/meta](https://api.github.com/meta)
 
 ### iptables
+Here's the iptables configuration to create a specific chain to allow GitHub Webhooks servers to access the service.
 
 ```bash
 # Create a chain named GitHubWebHooks
