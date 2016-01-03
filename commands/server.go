@@ -10,7 +10,7 @@ import (
 )
 
 func cmdServer(c *cli.Context) {
-	config := new(configuration.Configuration)
+	config := configuration.NewConfiguration()
 	err := config.ParseFile(c.String("configuration"))
 	if err != nil {
 		logrus.Fatalf("Invalid configuration file: %v", err)

@@ -18,7 +18,10 @@ type Repository struct {
 }
 
 func NewConfiguration() *Configuration {
-	return new(Configuration)
+	config := new(Configuration)
+	config.Host = "0.0.0.0"
+	config.Port = "3091"
+	return config
 }
 
 func (c *Configuration) Parse(configuration []byte) error {
