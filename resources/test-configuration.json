@@ -1,7 +1,9 @@
 {
+    "host": "0.0.0.0",
     "port": "3091",
+    "path": "/usr/bin:/bin",
     "repositories": {
-        "fntlnz/statik": {
+        "fntlnz/dockerfiles": {
             "events": {
                 "ping": ["touch ping-on-any-branch.txt"]
             }
