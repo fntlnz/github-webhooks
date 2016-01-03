@@ -16,7 +16,7 @@ func cmdServer(c *cli.Context) {
 		logrus.Fatalf("Invalid configuration file: %v", err)
 	}
 	context := &server.Context{
-		config,
+		Configuration: config,
 	}
 	handler := server.LoggingMiddleware(server.NewRouter(context))
 	address := config.GetAddress()
