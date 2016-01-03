@@ -31,11 +31,13 @@ func LoggingMiddleware(next http.Handler) http.Handler {
 		}
 		next.ServeHTTP(logResponseWriter, r)
 		logrus.Printf(
-			"%s\t%s\t%d\t%s",
-			r.Method,
-			r.RequestURI,
+			"Response: %d (%s)\tRemote Addr: %s\tRequest: %s %s%s",
 			logResponseWriter.status,
 			http.StatusText(logResponseWriter.status),
+			r.RemoteAddr,
+			r.Method,
+			r.Host,
+			r.RequestURI,
 		)
 	})
 }

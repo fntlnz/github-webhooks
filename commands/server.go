@@ -11,7 +11,10 @@ import (
 
 func cmdServer(c *cli.Context) {
 	config := new(configuration.Configuration)
-	config.ParseFile("resources/test-configuration.json")
+	err := config.ParseFile(c.String("configuration"))
+	if err != nil {
+		logrus.Fatalf("Invalid configuration file: %v", err)
+	}
 	context := &server.Context{
 		config,
 	}

@@ -3,8 +3,10 @@ package server
 import (
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/Sirupsen/logrus"
+	"github.com/fntlnz/github-webhooks/executor"
 	"github.com/gorilla/mux"
 )
 
@@ -54,10 +56,17 @@ func Repository(c *Context, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// TODO(fntlnz): do something with actions (in a service possibly)
 	for _, cmdString := range repo.Events[event] {
-		logrus.Printf(cmdString)
+		cmdFields := strings.Fields(cmdString)
+		command := cmdFields[0]
+		arguments := cmdFields[1:len(cmdFields)]
+		logrus.Infof("Executing shell command: %s", cmdString)
+		she := executor.NewShellExecutor(command, arguments)
+		if nil != she.Execute() {
+			w.WriteHeader(http.StatusInternalServerError)
+			logrus.Errorf("An error occurred executing shell command: %s", cmdString)
+			return
+		}
 	}
-
 	w.WriteHeader(http.StatusOK)
 }

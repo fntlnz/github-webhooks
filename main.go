@@ -14,6 +14,7 @@ func main() {
 	app.Version = "1.0.0-dev"
 	app.Author = "Lorenzo Fontana"
 	app.Email = "fontanalorenzo@me.com"
+	app.Flags = commands.Flags
 	app.Commands = commands.Commands
 	app.Run(os.Args)
 }

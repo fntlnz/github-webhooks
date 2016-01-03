@@ -17,6 +17,10 @@ type Repository struct {
 	Events map[string][]string `json:"events"`
 }
 
+func NewConfiguration() *Configuration {
+	return new(Configuration)
+}
+
 func (c *Configuration) Parse(configuration []byte) error {
 	return json.Unmarshal(configuration, &c)
 }
