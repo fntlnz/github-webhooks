@@ -4,9 +4,10 @@
 
 - New project structure
 - Host is now configurable
-- Server command `github-webhooks server`
+- New server command `github-webhooks server`
+- $PAYLOAD environment variable to pass the hook payload to configured commands
 - Default configuration generation command
-- Continuous integration
+- Enabled travis ci for the project
 
 ## [0.0.2](https://github.com/fntlnz/github-webhooks/releases/tag/0.0.2) (2014-07-25)
 

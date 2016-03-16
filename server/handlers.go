@@ -8,6 +8,7 @@ import (
 	"github.com/Sirupsen/logrus"
 	"github.com/fntlnz/github-webhooks/executor"
 	"github.com/gorilla/mux"
+	"bytes"
 )
 
 type AppHandlerFunc func(c *Context, w http.ResponseWriter, r *http.Request)
@@ -56,15 +57,27 @@ func Repository(c *Context, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	buffer := new(bytes.Buffer)
+	_, err := buffer.ReadFrom(r.Body)
+
+	if err != nil {
+		logrus.Warningf("An error occurred retrieving the payload from the hook: %v", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	payload := buffer.String()
+
 	for _, cmdString := range repo.Events[event] {
 		cmdFields := strings.Fields(cmdString)
 		command := cmdFields[0]
 		arguments := cmdFields[1:len(cmdFields)]
 		logrus.Infof("Executing shell command: %s", cmdString)
-		she := executor.NewShellExecutor(command, arguments)
-		if nil != she.Execute() {
+		she := executor.NewShellExecutor(command, arguments, payload)
+		err := she.Execute()
+		if nil != err {
 			w.WriteHeader(http.StatusInternalServerError)
-			logrus.Errorf("An error occurred executing shell command: %s", cmdString)
+			logrus.Errorf("An error occurred executing shell command: %s - %v", cmdString, err)
 			return
 		}
 	}
