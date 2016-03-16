@@ -1,16 +1,17 @@
 {
 	"ImportPath": "github.com/fntlnz/github-webhooks",
-	"GoVersion": "go1.5",
+	"GoVersion": "go1.6",
+	"GodepVersion": "v58",
 	"Deps": [
 		{
 			"ImportPath": "github.com/Sirupsen/logrus",
-			"Comment": "v0.8.7-33-g62f85a2",
-			"Rev": "62f85a2e398fb4cae34ecd1db528422ede248d3c"
+			"Comment": "v0.9.0-13-g74bde9e",
+			"Rev": "74bde9ea4c5b2c78995da8ed56d37e75644dc941"
 		},
 		{
 			"ImportPath": "github.com/codegangsta/cli",
-			"Comment": "1.2.0-143-ga65b733",
-			"Rev": "a65b733b303f0055f8d324d805f393cd3e7a7904"
+			"Comment": "1.2.0-217-g5db7419",
+			"Rev": "5db74198dee1cfe60cf06a611d03a420361baad6"
 		},
 		{
 			"ImportPath": "github.com/gorilla/context",
@@ -18,7 +19,11 @@
 		},
 		{
 			"ImportPath": "github.com/gorilla/mux",
-			"Rev": "ad4d7a5882b961e07e2626045eb995c022ac6664"
+			"Rev": "26a6070f849969ba72b72256e9f14cf519751690"
+		},
+		{
+			"ImportPath": "golang.org/x/sys/unix",
+			"Rev": "9d4e42a20653790449273b3c85e67d6d8bae6e2e"
 		}
 	]
 }
